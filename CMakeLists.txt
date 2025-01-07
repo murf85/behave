@@ -13,7 +13,7 @@ SET(CMAKE_CXX_STANDARD 14)
 
 PROJECT(behave)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/behave)      
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/src/behave)      
 
 # optional test executable
 OPTION(TEST_BEHAVE "Enable Testing" ON)
@@ -140,57 +140,5 @@ SET(HEADERS
 SOURCE_GROUP("Behave Core Source Files" FILES ${SOURCE})
 SOURCE_GROUP("Behave Core Header Files" FILES ${HEADERS})
 
-IF(TEST_BEHAVE)
-        SET(BOOST_TEST_SOURCE
-            src/testBehave/testBehave.cpp)
-        ADD_EXECUTABLE(testBehave 
-            ${SOURCE}
-            ${BOOST_TEST_SOURCE}
-            ${HEADERS})
-        TARGET_LINK_LIBRARIES(testBehave)
-ENDIF()
-
-IF(TEST_MORTALITY)
-    SET(BOOST_TEST_SOURCE
-            src/testMortality/mortality_client.cpp)
-    ADD_EXECUTABLE(testMortality
-            ${SOURCE}
-            ${BOOST_TEST_SOURCE}
-            ${HEADERS})
-    TARGET_LINK_LIBRARIES(testMortality)
-ENDIF()
-
-IF(EXAMPLE_APP)
-    ADD_EXECUTABLE(behave 
-        ${SOURCE} 
-        src/behave/client.cpp 
-        ${HEADERS})
-ENDIF()
-
-IF(RAWS_BATCH)
-    ADD_EXECUTABLE(behave-raws-batch
-        ${SOURCE}
-        src/rawsBatch/behaveRawsBatch.cpp
-        ${HEADERS})
-ENDIF()
-
-IF(COMPUTE_SPOT_PILE)
-    ADD_EXECUTABLE(compute_spot_distance_pile
-        ${SOURCE}
-        src/spotDistancePile/computePileSpottingDistance.cpp
-        ${HEADERS})
-ENDIF()
-
-IF(COMPUTE_SPOT_SURFACE)
-    ADD_EXECUTABLE(compute_spot_distance_surface
-        ${SOURCE}
-        src/spotDistanceSurface/computeSurfaceSpottingDistance.cpp
-        ${HEADERS})
-ENDIF()
-
-IF(COMPUTE_SPOT_TORCHING_TREES)
-    ADD_EXECUTABLE(compute_spot_distance_trees
-        ${SOURCE}
-        src/spotDistanceTorchingTrees/computeTorchingTreesSpottingDistance.cpp
-        ${HEADERS})
-ENDIF()
+add_library(${PROJECT_NAME} ${SOURCE} ${HEADERS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
