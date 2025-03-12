@@ -142,3 +142,7 @@ SOURCE_GROUP("Behave Core Header Files" FILES ${HEADERS})
 
 add_library(${PROJECT_NAME} ${SOURCE} ${HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+if(NOT MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wno-write-strings)
+endif()
